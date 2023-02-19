@@ -1,7 +1,5 @@
 #include <iostream>
-#include "calculate.h"
 #include "scheduling.h"
-#include "menu.h"
 
 using namespace std;
 

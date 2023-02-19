@@ -29,7 +29,7 @@ Process* generateProcessList(int procSelection) {
     // cout << "Enter the pid for the head node: ";
     // cin >> headPID;
 
-    cout << "Enter the Burst Time for the head node: ";
+    cout << "\nEnter the Burst Time for the head node: ";
     cin >> headBurstTime;
 
     // Create head node with values passed
@@ -73,20 +73,32 @@ Process* generateProcessList(int procSelection) {
  * 
  * @param algorithms String array that holds the name of each algorithm to be presented
 **/
-int printSubMenu(string algorithms[]) {
+int printSubMenu(string algorithms[], int algorithmSelected) {
     // Initialize selection variable and the size of the array that holds the algorithms
     int selection = 0;
-    int arraySize = sizeof(algorithms) / sizeof(algorithms[0]);
+    int arraySize = 0;
+    switch (algorithmSelected) {
+        case 1:
+            arraySize = 4;
+            break;
+        case 2:
+            arraySize = 3;
+            break;
+        case 3:
+            arraySize = 2;
+            break;
+    }
 
     // Print a menu by looping through each element in the algorithms array
-    cout << "Select options between 0 to " << arraySize << "\n" << endl;
+    cout << "\n\nSelect options between 0 to " << arraySize << endl;
     for (int i = 0; i < arraySize; i++) {
         cout << i + 1 << ". " << algorithms[i] << endl;
     }
     cout << "0. Exit" << endl;
     cout << "\nPrompt: ";
     cin >> selection;
-
+    
+    selection = selection - 1;
     // Return back the ID for the selected algorithm
     return selection;
 }
@@ -106,7 +118,7 @@ string printMenu() {
     // Present a menu prompt for the user to select an option
     int selection = 0;
     int alg = 0;
-    cout << "Please choose one the following to proceed (1 - 3):" << endl;
+    cout << "\nPlease choose one the following to proceed (1 - 3):" << endl;
     cout << "1. Processes\n"
          << "2. Memory\n"
          << "3. Disk\n"
@@ -117,15 +129,16 @@ string printMenu() {
     // Switch case if a user selects any option, it will call printSubMenu() method passing it a correspondent algorithm array
     switch (selection) {
         case 1:
-            alg = printSubMenu(algProcesses);
+            alg = printSubMenu(algProcesses, 1);
+            cout << algProcesses[alg] << " <- Algorithm selected" << endl;
             return algProcesses[alg];
             break;
         case 2:
-            alg = printSubMenu(algMemory);
+            alg = printSubMenu(algMemory, 2);
             return algMemory[alg];
             break;
         case 3:
-            alg = printSubMenu(algDisks);
+            alg = printSubMenu(algDisks, 3);
             return algDisks[alg];
             break;
         case 0:

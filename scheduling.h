@@ -14,22 +14,25 @@ using namespace std;
  * their burst time
  * @param procNumber number of total processes
 */
-void firstComeFirstServe(Process* head, int procNumber) {
+void firstComeFirstServe(Process* firstProcess, int procNumber) {
     int* waitingTime = new int[procNumber];
     int* burstTimes = new int[procNumber];
 
-    Process* current = head;
+    Process* current = firstProcess;
     for (int i = 0; i < procNumber; i++) {
         burstTimes[i] = current->burstTime;
         current = current->next;
     }
 
+    cout << "Before calculateNonPreemptive" << endl;
     waitingTime = calculateNonPreemptive(burstTimes, procNumber);
 
-    Process* current = head;
+    int i = 0;
+    current = firstProcess;
+    cout << "Process\t\t|\t   Waiting Time" << endl;
+    cout << "----------------------------------------------" << endl;
     while (current != nullptr) {
-        int i = 0;
-        cout << "Process ID: " << current->pid << ", Waiting time: " << waitingTime[i] << endl;
+        cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
         current = current->next;
         i += 1;
     }

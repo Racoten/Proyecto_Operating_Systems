@@ -24,7 +24,6 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
         current = current->next;
     }
 
-    cout << "Before calculateNonPreemptive" << endl;
     waitingTime = calculateNonPreemptive(burstTimes, procNumber);
 
     int i = 0;
@@ -51,5 +50,5 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
  * @param procNumber number of total processes
 */
 void shortestJobFirst(Process* head, int procNumber) {
-    
+
 }

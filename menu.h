@@ -72,6 +72,7 @@ Process* generateProcessList(int procSelection) {
  * that contains the names of the algorithms that can be used.
  * 
  * @param algorithms String array that holds the name of each algorithm to be presented
+ * @param algorithmSelected ID of the algorithm that was selected
 **/
 int printSubMenu(string algorithms[], int algorithmSelected) {
     // Initialize selection variable and the size of the array that holds the algorithms

@@ -37,3 +37,19 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
         i += 1;
     }
 }
+
+/**
+ * Shortest Job First (SJF)
+ * 
+ * This function will calculate the waiting time of each process in a linkedlist:
+ * It will first take the arrival time and the burst time to decide which process
+ * will go first and at what time (ms) the dispatcher will step over to the second 
+ * process considering the size of its burst time
+ * 
+ * @param head this parameter will contain the linkedlist of all the processes and
+ * their burst time
+ * @param procNumber number of total processes
+*/
+void shortestJobFirst(Process* head, int procNumber) {
+    
+}

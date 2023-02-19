@@ -32,5 +32,9 @@ int main() {
         firstComeFirstServe(head, procSelection);
         return 0;
     }
+    else if (algorithm == "SJF") {
+        shortestJobFirst(head, procSelection);
+        return 0;
+    }
     return 0;
 }

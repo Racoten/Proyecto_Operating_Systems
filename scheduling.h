@@ -51,6 +51,30 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
  * @param procNumber number of total processes
 */
 void shortestJobFirst(Process* head, int procNumber) {
+     // ordena los procesos por burstime
+    head = sortProcessesByBurstTime(head);
+     Process* current = head;
+
+    // Execute processes and calculate wait and turnaround times
+    double totalWaitTime = 0;
+    double totalTurnaroundTime = 0;
+    double currentTime = 0;
+    
+    while (current != nullptr) {
+        double waitTime = currentTime - current->arrivalTime;
+        totalWaitTime += waitTime;
+        double turnaroundTime = waitTime + current->burstTime;
+        totalTurnaroundTime += turnaroundTime;
+
+        for (int i = 0; i < current->burstTime; i++) {
+            cout << " P" << current->pid << " ";
+            currentTime++;
+        }
+
+        current = current->next;
+    }
+     // Calcular waiting,avarage,TAt times... falta
+    
 
 }
 

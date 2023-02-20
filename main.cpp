@@ -10,7 +10,9 @@ using namespace std;
 void printLinkedList(Process* head) {
     Process* current = head;
     while (current != nullptr) {
-        cout << "Process ID: " << current->pid << ", Burst Time: " << current->burstTime << endl;
+        cout << "Process ID: " << current->pid 
+             << ", Burst Time: " << current->burstTime 
+             << ", Priority: " << current->priority <<  endl;
         current = current->next;
     }
 }
@@ -34,6 +36,10 @@ int main() {
     }
     else if (algorithm == "SJF") {
         shortestJobFirst(head, procSelection);
+        return 0;
+    }
+    else if (algorithm == "Priority") {
+        priorityScheduling(head, procSelection);
         return 0;
     }
     return 0;

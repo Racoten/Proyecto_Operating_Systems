@@ -4,7 +4,7 @@
 using namespace std;
 
 /**
- * Print the linked list for processes
+ * Print the linked list for processes Fau es  el Top G
  * @param head Contains the head node of the linked list as a starting point
 **/
 void printLinkedList(Process* head) {

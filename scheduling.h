@@ -56,19 +56,20 @@ void shortestJobFirst(Process* head, int procNumber) {
      Process* current = head;
 
     // Execute processes and calculate wait and turnaround times
-    double totalWaitTime = 0;
-    double totalTurnaroundTime = 0;
-    double currentTime = 0;
-    
+    double *totalWaitTime = new double(0);
+    double *totalTurnaroundTime = new double(0);
+    double *currentTime = new double(0);
+    Process* current = head;
+   
     while (current != nullptr) {
-        double waitTime = currentTime - current->arrivalTime;
-        totalWaitTime += waitTime;
+        double waitTime = *currentTime - current->arrivalTime;
+        *totalWaitTime += waitTime;
         double turnaroundTime = waitTime + current->burstTime;
-        totalTurnaroundTime += turnaroundTime;
+        *totalTurnaroundTime += turnaroundTime;
 
         for (int i = 0; i < current->burstTime; i++) {
             cout << " P" << current->pid << " ";
-            currentTime++;
+            *currentTime += 1.0;
         }
 
         current = current->next;

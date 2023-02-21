@@ -84,8 +84,8 @@ Process* sortByburstTime(Process* head, int procNumber) {
            /*** int tempbTime = curr->burstTime;
             curr->burstTime = minNode->burstTime;
             minNode->burstTime = tempbTime;
-            int tempBurstTime = curr->burstTime;
             */
+            int tempBurstTime = curr->burstTime;
             curr->burstTime = minNode->burstTime;
             minNode->burstTime = tempBurstTime;
         }

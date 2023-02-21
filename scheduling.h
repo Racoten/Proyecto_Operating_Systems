@@ -52,19 +52,19 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
 */
 void shortestJobFirst(Process* head, int procNumber) {
      // ordena los procesos por burstime
-    head = sortProcessesByBurstTime(head);
-     Process* current = head;
+     //VERIFICAR head = sortProcessesByBurstTime(head);
+     Process* current =  sortByPriority(head, procNumber);
 
     // Execute processes and calculate wait and turnaround times
-    double *totalWaitTime = new double(0);
-    double *totalTurnaroundTime = new double(0);
-    double *currentTime = new double(0);
+    int *totalWaitTime = new int(0);
+    int *totalTurnaroundTime = new int(0);
+    int *currentTime = new int(0);
     Process* current = head;
    
     while (current != nullptr) {
-        double waitTime = *currentTime - current->arrivalTime;
+        int waitTime = *currentTime - current->arrivalTime;
         *totalWaitTime += waitTime;
-        double turnaroundTime = waitTime + current->burstTime;
+        int turnaroundTime = waitTime + current->burstTime;
         *totalTurnaroundTime += turnaroundTime;
 
         for (int i = 0; i < current->burstTime; i++) {

@@ -55,3 +55,45 @@ Process* sortByPriority(Process* head, int procNumber) {
     // Return the head of the sorted linked list
     return head;
 }
+Process* sortByburstTime(Process* head, int procNumber) {
+    // If the linked list is empty or has only one node, it is already sorted, so return it
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    }
+
+    // Create a pointer to the head of the linked list and start traversing it
+    Process* curr = head;
+    while (curr != nullptr) {
+        // Set the current node as the minimum node
+        Process* minNode = curr;
+
+        // Create a temporary pointer to the node following the current node
+        Process* temp = curr->next;
+
+        // Traverse the rest of the linked list to find the node with the smallest priority
+        while (temp != nullptr) {
+            if (temp->burstTime < minNode->burstTime) {
+                minNode = temp;
+            }
+            temp = temp->next;
+        }
+
+        // If the node with the smallest priority is not the current node,
+        // swap the values of the current node and the node with the smallest priority
+        if (minNode != curr) {
+           /*** int tempbTime = curr->burstTime;
+            curr->burstTime = minNode->burstTime;
+            minNode->burstTime = tempbTime;
+            int tempBurstTime = curr->burstTime;
+            */
+            curr->burstTime = minNode->burstTime;
+            minNode->burstTime = tempBurstTime;
+        }
+
+        // Move to the next node in the linked list
+        curr = curr->next;
+    }
+
+    // Return the head of the sorted linked list
+    return head;
+}

@@ -59,7 +59,7 @@ void shortestJobFirst(Process* head, int procNumber) {
     int *totalWaitTime = new int(0);
     int *totalTurnaroundTime = new int(0);
     int *currentTime = new int(0);
-    Process* current = head;
+    current = head;
    
     while (current != nullptr) {
         int waitTime = *currentTime - current->arrivalTime;

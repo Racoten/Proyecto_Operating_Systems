@@ -81,10 +81,6 @@ Process* sortByburstTime(Process* head, int procNumber) {
         // If the node with the smallest priority is not the current node,
         // swap the values of the current node and the node with the smallest priority
         if (minNode != curr) {
-           /*** int tempbTime = curr->burstTime;
-            curr->burstTime = minNode->burstTime;
-            minNode->burstTime = tempbTime;
-            */
             int tempBurstTime = curr->burstTime;
             curr->burstTime = minNode->burstTime;
             minNode->burstTime = tempBurstTime;

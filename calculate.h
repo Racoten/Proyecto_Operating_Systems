@@ -2,7 +2,7 @@
 
 using namespace std;
 /**
- * Calculate Waiting Time with Non-preemption:
+ * Calculate Waiting Time with Non-preemption
  * This function will caculate the waiting time for each process sequentially in the order that they are passed
  * 
  * @param burstTime holds the burst time of each process

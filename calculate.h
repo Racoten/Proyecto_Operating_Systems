@@ -18,9 +18,5 @@ int* calculateNonPreemptive(int burstTime[], int procNumber) {
         lastWait = waitingTime[i + 1];
     }
 
-    for (int i = 0; i < procNumber; i++) {
-        cout << waitingTime[i] << endl;
-    }
-
     return waitingTime;
 }

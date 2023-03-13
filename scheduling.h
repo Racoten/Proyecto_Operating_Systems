@@ -52,7 +52,6 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
 */
 void shortestJobFirst(Process* head, int procNumber) {
      // ordena los procesos por burstime
-      //head = sortByburstTime(head);
      Process* current =  sortByburstTime(head, procNumber); // linea 55 o linea 56 es la correcta?
 
     // Execute processes and calculate wait and turnaround times

@@ -57,7 +57,7 @@ Process* generateProcessList(int procSelection) {
         cout << "Enter Burst Time for next node: ";
         cin >> nextNodeBurstTime;
 
-        cout << "Enter Priority for next node:";
+        cout << "Enter Priority for next node: ";
         cin >> nextNodePriority;
 
         // After entering the values for a node, automatically create them and add 

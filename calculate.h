@@ -13,9 +13,9 @@ int* calculateNonPreemptive(int burstTime[], int procNumber) {
     waitingTime[0] = 0;
 
     int lastWait = 0;
-    for (int i = 1; i < procNumber; i++) {
-        waitingTime[i - 1] = lastWait + burstTime[i];
-        lastWait = waitingTime[i - 1];
+    for (int i = 0; i < procNumber; i++) {
+        waitingTime[i + 1] = lastWait + burstTime[i];
+        lastWait = waitingTime[i + 1];
     }
 
     for (int i = 0; i < procNumber; i++) {

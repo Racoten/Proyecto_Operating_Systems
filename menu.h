@@ -27,6 +27,7 @@ Process* generateProcessList(int procSelection) {
     int headPID = 1;
     int headBurstTime = 0;
     int headPriority = 0;
+    int headArrivalTime = 0;
     // cout << "Enter the pid for the head node: ";
     // cin >> headPID;
 
@@ -36,22 +37,27 @@ Process* generateProcessList(int procSelection) {
     cout << "Enter the Priority for the head process: ";
     cin >> headPriority;
 
+    cout << "Enter the Arrival Time for the head process: ";
+    cin >> headArrivalTime;
+
     // Create head node with values passed
     Process* head = new Process();
     head->pid = headPID;
     head->burstTime = headBurstTime;
     head->priority = headPriority;
+    head->arrivalTime = headArrivalTime;
+
     // Initialize variables to hold the PID and Burst Time for each 
     // consequent node on the list
     int nextNodePID = 0;
     int nextNodeBurstTime = 0;    
     int nextNodePriority = 0;
+    int nextNodeArrivalTime = 0;
 
     Process* current = head;
     // Subtract 1 to procSelection because we are adding a node after the head node
     for (int i = 1; i < procSelection; i++) {
         nextNodePID = i + 1;
-        nextNodeBurstTime = 0;
         // cout << "Enter PID for next node: ";
         // cin >> nextNodePID;
 
@@ -61,12 +67,16 @@ Process* generateProcessList(int procSelection) {
         cout << "Enter Priority for next node: ";
         cin >> nextNodePriority;
 
+        cout << "Enter Arrival Time for next node: ";
+        cin >> nextNodeArrivalTime;
+
         // After entering the values for a node, automatically create them and add 
         // another node right beneath it
         Process* newProcess = new Process();
         newProcess->pid = nextNodePID;
         newProcess->burstTime = nextNodeBurstTime;
         newProcess->priority = nextNodePriority;
+        newProcess->arrivalTime = nextNodeArrivalTime;
         current->next = newProcess;
         current = current->next;
     }

@@ -119,6 +119,7 @@ void priorityScheduling(Process* head, int procNumber) {
 
     cout << "\nAverage waiting time for all processes is: " << totalWaitingTime / procNumber << endl;
 }
+
 /**
  * Round Robin:
  * 

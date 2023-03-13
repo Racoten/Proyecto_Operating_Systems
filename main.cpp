@@ -44,10 +44,10 @@ int main() {
             priorityScheduling(head, procSelection);
         }
 
-        cout << "Would you like to continue? (Example: yes, y): ";
+        cout << "\nWould you like to continue? (Example: yes, y): ";
         cin >> allowContinue;
         transform(allowContinue.begin(), allowContinue.end(), allowContinue.begin(), ::toupper);
-        
+
     } while (allowContinue != "NO" && allowContinue != "N");
 
     return 0;

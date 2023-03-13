@@ -11,6 +11,7 @@ struct Process {
     int priority;
     int turnAroundTime;// new por Fau
     Process* next;
+    Process* previous;
 };
 
 /**

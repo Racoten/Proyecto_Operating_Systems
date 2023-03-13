@@ -55,6 +55,11 @@ Process* sortByPriority(Process* head, int procNumber) {
     // Return the head of the sorted linked list
     return head;
 }
+
+/**
+ * @param head unsorted linked list of all process nodes
+ * @param procNumber number of total processes
+*/
 Process* sortByburstTime(Process* head, int procNumber) {
     // If the linked list is empty or has only one node, it is already sorted, so return it
     if (head == nullptr || head->next == nullptr) {
@@ -91,5 +96,33 @@ Process* sortByburstTime(Process* head, int procNumber) {
     }
 
     // Return the head of the sorted linked list
+    return head;
+}
+
+/**
+ * Process Reconstruct:
+ * 
+ * This function takes a parameter of type Process which is a singly linked list by default.
+ * The function will then reconstruct it so that it can become a Circular Doubly Linked List
+ * of Processes.
+ * 
+ * @param head unsorted linked list of all process nodes
+*/
+Process* processReconstruct(Process* head) {
+    if (head == NULL) {
+        return NULL;
+    }
+
+    // Traverse to the end of the list
+    Process* current = head;
+    while (current->next != NULL) {
+        current->next->previous = current;
+        current = current->next;
+    }
+
+    // Make the list circular
+    current->next = head;
+    head->previous = current;
+
     return head;
 }

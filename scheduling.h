@@ -7,6 +7,7 @@ using namespace std;
 
 /**
  * First Come First Serve:
+ * 
  * This method will receive a linked list in order as presented and return an array,
  * or rather a pointer to the first element in the array that contains the waiting
  * time for each process
@@ -39,7 +40,7 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
 }
 
 /**
- * Shortest Job First (SJF)
+ * Shortest Job First (SJF):
  * 
  * This function will calculate the waiting time of each process in a linkedlist:
  * It will first take the arrival time and the burst time to decide which process
@@ -79,7 +80,8 @@ void shortestJobFirst(Process* head, int procNumber) {
 }
 
 /**
- * Priority Process Scheduling
+ * Priority Process Scheduling: 
+ * 
  * This function will receive a Sorted linked list of process in the order based off
  * the lowest priority among them
  * 
@@ -104,12 +106,31 @@ void priorityScheduling(Process* head, int procNumber) {
     waitingTime = calculateNonPreemptive(burstTimes, procNumber);
 
     int i = 0;
+    float totalWaitingTime = 0.0;
     current = sortedHead;
     cout << "\nProcess\t\t|\t   Waiting Time" << endl;
     cout << "----------------------------------------------" << endl;
     while (current != nullptr) {
         cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
         current = current->next;
+        totalWaitingTime += waitingTime[i];
         i += 1;
     }
+
+    cout << "\nAverage waiting time for all processes is: " << totalWaitingTime / procNumber << endl;
+}
+/**
+ * Round Robin:
+ * 
+ * This 
+ * 
+ * @param head sorted linked list of all process to be used
+ * @param procNumber number of total processes
+**/
+void roundRobin(Process* head, int procNumber) {
+    // Reconstruct the singly linked list of processes to become a Circular Doubly Linked List
+    Process* reconstructedHead = processReconstruct(head);
+
+    
+
 }

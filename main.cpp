@@ -1,5 +1,7 @@
 #include <iostream>
 #include "scheduling.h"
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -9,6 +11,7 @@ using namespace std;
 **/
 void printLinkedList(Process* head) {
     Process* current = head;
+    cout  << "" << endl;
     while (current != nullptr) {
         cout << "Process ID: " << current->pid 
              << ", Burst Time: " << current->burstTime 
@@ -26,21 +29,26 @@ int main() {
     Process* head = NULL; 
     head = generateProcessList(procSelection);
     printLinkedList(head);
+    string allowContinue = "NO";
     // exit(0);
+    do {
+        string algorithm = printMenu();
+        
+        if (algorithm == "FCFS") {
+            firstComeFirstServe(head, procSelection);
+        }
+        else if (algorithm == "SJF") {
+            shortestJobFirst(head, procSelection);
+        }
+        else if (algorithm == "Priority") {
+            priorityScheduling(head, procSelection);
+        }
 
-    string algorithm = printMenu();
-    
-    if (algorithm == "FCFS") {
-        firstComeFirstServe(head, procSelection);
-        return 0;
-    }
-    else if (algorithm == "SJF") {
-        shortestJobFirst(head, procSelection);
-        return 0;
-    }
-    else if (algorithm == "Priority") {
-        priorityScheduling(head, procSelection);
-        return 0;
-    }
+        cout << "Would you like to continue? (Example: yes, y): ";
+        cin >> allowContinue;
+        transform(allowContinue.begin(), allowContinue.end(), allowContinue.begin(), ::toupper);
+        
+    } while (allowContinue != "NO" && allowContinue != "N");
+
     return 0;
 }

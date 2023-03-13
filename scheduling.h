@@ -105,7 +105,7 @@ void priorityScheduling(Process* head, int procNumber) {
 
     int i = 0;
     current = sortedHead;
-    cout << "Process\t\t|\t   Waiting Time" << endl;
+    cout << "\nProcess\t\t|\t   Waiting Time" << endl;
     cout << "----------------------------------------------" << endl;
     while (current != nullptr) {
         cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;

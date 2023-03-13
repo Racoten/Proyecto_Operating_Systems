@@ -32,7 +32,7 @@ Process* generateProcessList(int procSelection) {
     cout << "\nEnter the Burst Time for the head process: ";
     cin >> headBurstTime;
 
-    cout << "\nEnter the Priority for the head process: ";
+    cout << "Enter the Priority for the head process: ";
     cin >> headPriority;
 
     // Create head node with values passed
@@ -54,7 +54,7 @@ Process* generateProcessList(int procSelection) {
         // cout << "Enter PID for next node: ";
         // cin >> nextNodePID;
 
-        cout << "Enter Burst Time for next node: ";
+        cout << "\nEnter Burst Time for next node: ";
         cin >> nextNodeBurstTime;
 
         cout << "Enter Priority for next node: ";
@@ -139,15 +139,17 @@ string printMenu() {
     switch (selection) {
         case 1:
             alg = printSubMenu(algProcesses, 1);
-            cout << algProcesses[alg] << " <- Algorithm selected" << endl;
+            cout << algProcesses[alg] << " <- Algorithm for CPU Scheduling selected" << endl;
             return algProcesses[alg];
             break;
         case 2:
             alg = printSubMenu(algMemory, 2);
+            cout << algProcesses[alg] << " <- Algorithm for Memory Scheduling selected" << endl;
             return algMemory[alg];
             break;
         case 3:
             alg = printSubMenu(algDisks, 3);
+            cout << algProcesses[alg] << " <- Algorithm Disk Scheduling selected" << endl;
             return algDisks[alg];
             break;
         case 0:

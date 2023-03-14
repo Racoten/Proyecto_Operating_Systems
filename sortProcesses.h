@@ -109,20 +109,19 @@ Process* sortByburstTime(Process* head, int procNumber) {
  * @param head unsorted linked list of all process nodes
 */
 Process* processReconstruct(Process* head) {
-    if (head == NULL) {
-        return NULL;
+    if (head == nullptr) {
+        return nullptr;
     }
 
-    // Traverse to the end of the list
+    // Traverse to the end of the list and set previous pointers
     Process* current = head;
-    while (current->next != NULL) {
-        current->next->previous = current;
+    Process* previous = nullptr;
+    while (current != nullptr) {
+        current->previous = previous;
+        previous = current;
         current = current->next;
     }
 
-    // Make the list circular
-    current->next = head;
-    head->previous = current;
-
+    // Return the new head of the list
     return head;
 }

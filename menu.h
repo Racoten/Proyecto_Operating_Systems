@@ -10,6 +10,8 @@ struct Process {
     int arrivalTime;
     int priority;
     int turnAroundTime;// new por Fau
+    int waitingTime;
+    int remainingBurstTime;
     Process* next;
     Process* previous;
 };
@@ -58,8 +60,6 @@ Process* generateProcessList(int procSelection) {
     // Subtract 1 to procSelection because we are adding a node after the head node
     for (int i = 1; i < procSelection; i++) {
         nextNodePID = i + 1;
-        // cout << "Enter PID for next node: ";
-        // cin >> nextNodePID;
 
         cout << "\nEnter Burst Time for next node: ";
         cin >> nextNodeBurstTime;

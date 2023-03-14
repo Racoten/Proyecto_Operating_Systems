@@ -3,6 +3,10 @@
 #include "calculate.h"
 #include "sortProcesses.h"
 
+// Define prototypes
+Process* generateNewList(Process* head);
+void deleteLinkedList(Process* head);
+
 using namespace std;
 
 /**
@@ -123,7 +127,9 @@ void priorityScheduling(Process* head, int procNumber) {
 /**
  * Round Robin:
  * 
- * This 
+ * This function will calculate the waiting time and turn around time of a process
+ * it receives from a linked list and will schedule them using Round Robin taking 
+ * into account the Quantum time
  * 
  * @param head sorted linked list of all process to be used
  * @param procNumber number of total processes
@@ -132,6 +138,45 @@ void roundRobin(Process* head, int procNumber) {
     // Reconstruct the singly linked list of processes to become a Circular Doubly Linked List
     Process* reconstructedHead = processReconstruct(head);
 
-    
+    int quantum = 0;
+    cout << "Enter quantum time: ";
+    cin >> quantum;
 
+    // Execute first process
+    findWaitingTimeRoundRobin(reconstructedHead, quantum);
+
+
+    // Print out the waiting time for each process
+    Process* current = reconstructedHead;
+    int totalWaitingTime = 0;
+    int i = 0;
+    int* waitingTime = new int[procNumber];
+
+    for (int i = 0; i < procNumber; i++) {
+        waitingTime[i] = reconstructedHead->waitingTime;
+    }
+
+    cout << "\nProcess\t\t|\t   Waiting Time" << endl;
+    cout << "----------------------------------------------" << endl;
+    while (current != nullptr) {
+        cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
+        current = current->next;
+        totalWaitingTime += waitingTime[i];
+        i += 1;
+    }
+
+    deleteLinkedList(reconstructedHead);
+}
+
+void deleteLinkedList(Process* head) {
+    Process* current = head;
+    Process* next;
+
+    while (current != nullptr) {
+        next = current->next;
+        delete current;
+        current = next;
+    }
+
+    head = nullptr; // Set head to null after deleting all nodes
 }

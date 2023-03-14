@@ -43,6 +43,9 @@ int main() {
         else if (algorithm == "Priority") {
             priorityScheduling(head, procSelection);
         }
+        else if (algorithm == "Round Robin") {
+            roundRobin(head, procSelection);
+        }
 
         cout << "\nWould you like to continue? (Example: yes, y): ";
         cin >> allowContinue;

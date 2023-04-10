@@ -26,7 +26,7 @@ Process* sortByPriority(Process* head, int procNumber) {
         // Set the current node as the minimum node
         Process* minNode = curr;
 
-        // Create a temporary pointer to the node following the current node
+        // Create a temporary pointer to the node following the current 
         Process* temp = curr->next;
 
         // Traverse the rest of the linked list to find the node with the smallest priority

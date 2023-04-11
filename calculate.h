@@ -7,7 +7,7 @@ using namespace std;
  * This function will caculate the waiting time for each process sequentially in the order that they are passed
  * 
  * @param burstTime holds the burst time of each process
- * @param procNumber total number of processes being passed
+ * @param procNumber holds the total number of processes being passed
 */
 int* calculateNonPreemptive(int burstTime[], int procNumber) {
     int* waitingTime = new int[procNumber];

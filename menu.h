@@ -132,8 +132,8 @@ int printSubMenu(string algorithms[], int algorithmSelected) {
 string printMenu() {
     // Initialize arrays that hold the algorithms for each option
     string algProcesses[] = {"FCFS", "SJF", "Priority", "Round Robin"};
-    string algMemory[] = {""};
-    string algDisks[] = {""};
+    string algMemory[] = {"LRU", "Optimal", "FIFO"};
+    string algDisks[] = {"dFCFS", "SSF", "Scan", "C-Scan"};
 
     // Present a menu prompt for the user to select an option
     int selection = 0;
@@ -155,12 +155,12 @@ string printMenu() {
             break;
         case 2:
             alg = printSubMenu(algMemory, 2);
-            cout << algProcesses[alg] << " <- Algorithm for Memory Scheduling selected" << endl;
+            cout << algMemory[alg] << " <- Algorithm for Memory Scheduling selected" << endl;
             return algMemory[alg];
             break;
         case 3:
             alg = printSubMenu(algDisks, 3);
-            cout << algProcesses[alg] << " <- Algorithm Disk Scheduling selected" << endl;
+            cout << algDisks[alg] << " <- Algorithm Disk Scheduling selected" << endl;
             return algDisks[alg];
             break;
         case 0:

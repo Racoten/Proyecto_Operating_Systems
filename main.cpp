@@ -94,7 +94,7 @@ int main() {
             int movements = dFCFS(diskLineup);
             cout << "Number of movements made: " << movements << endl;
         }
-        else if (algorithm == "SSTF") {
+        else if (algorithm == "SSF") {
             int* diskLineup = doDisk();
             // for (int i = 0; i < 10; i++) {
             //     cout << diskLineup[i] << endl;

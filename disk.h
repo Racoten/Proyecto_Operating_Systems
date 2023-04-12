@@ -29,7 +29,8 @@ int sstf(int requests[]) {
             if (abs(requests[j] - curr_pos) < min_dist) {
                 closest_request = requests[j];
                 min_dist = abs(requests[j] - curr_pos);
-                cout << curr_pos << " -> ";
+                 cout << curr_pos << " -> ";
+                
             }
         }
         total_moves += min_dist;

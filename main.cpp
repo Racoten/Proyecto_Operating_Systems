@@ -94,6 +94,14 @@ int main() {
             int movements = dFCFS(diskLineup);
             cout << "Number of movements made: " << movements << endl;
         }
+        else if (algorithm == "SSTF") {
+            int* diskLineup = doDisk();
+            // for (int i = 0; i < 10; i++) {
+            //     cout << diskLineup[i] << endl;
+            // }
+            int movements = sstf(diskLineup);
+            cout << "Number of movements made: " << movements << endl;
+        }
 
         cout << "\nWould you like to continue? (Example: yes, y): ";
         cin >> allowContinue;

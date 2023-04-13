@@ -105,7 +105,7 @@ int printSubMenu(string algorithms[], int algorithmSelected) {
             arraySize = 3;
             break;
         case 3:
-            arraySize = 2;
+            arraySize = 4;
             break;
     }
 

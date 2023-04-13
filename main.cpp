@@ -38,7 +38,7 @@ int* doDisk() {
     cin >> initialDiskPosition;
     diskLineup[0] = initialDiskPosition;
 
-    for (int i = 1; i < 9; i++) {
+    for (int i = 1; i < 10; i++) {
         cout << "Now enter the next position: ";
         cin >> nextPostion;
         diskLineup[i] = nextPostion;
@@ -101,6 +101,14 @@ int main() {
             // }
             int movements = sstf(diskLineup);
             cout << "Number of movements made: " << movements << endl;
+        }
+        else if (algorithm == "C-Scan") {
+            int* diskLineup = doDisk();
+            // for (int i = 0; i < 10; i++) {
+            //     cout << diskLineup[i] << endl;
+            // }
+            int movements = cscan(diskLineup);
+            cout << "\nNumber of movements made: " << movements << endl;
         }
 
         cout << "\nWould you like to continue? (Example: yes, y): ";

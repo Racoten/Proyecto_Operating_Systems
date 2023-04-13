@@ -1,4 +1,6 @@
 #include <climits>
+#include <algorithm>
+
 // Function to calculate the total number of head movements and print the sequence of movements
 int dFCFS(int requests[]) {
     int head = requests[0];
@@ -16,6 +18,7 @@ int dFCFS(int requests[]) {
 
     return total_moves;
 }
+
 int sstf(int requests[]) {
     // Set the initial head position as the first request
     int head = requests[0];
@@ -50,4 +53,39 @@ int sstf(int requests[]) {
 
     // Return the total number of disk movements
     return total_moves;
+}
+
+int cscan(int requests[]) {
+    int edgeLeft = 0;
+    int edgeRight = 199;
+    int movements = 0;
+    int head = requests[0];
+    int size = 10;
+    cout << "Head is -> " << head << endl;
+
+    // Sort in ascending order
+    sort(requests, requests + size);
+
+    int newLineUp[10];
+
+    // Copy contents of old array to new array
+    for(int i = 0; i < 10; i++) {
+        newLineUp[i] = requests[i];
+    }
+    
+    
+    // Divide arrays into two new arrays
+    int newSmallsLineUp[5];
+    for (int i = 0; i < 5; i++) {
+        newSmallsLineUp[i] = newLineUp[i];
+    }
+
+    int newBigsLineUp[5];
+    int startingPosition = 5;
+    for (int i = 0; i < 5; i++) {
+        newBigsLineUp[i] = newLineUp[startingPosition];
+        startingPosition += 1;
+    }
+    
+    return movements;
 }

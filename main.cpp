@@ -102,6 +102,14 @@ int main() {
             int movements = sstf(diskLineup);
             cout << "Number of movements made: " << movements << endl;
         }
+         else if (algorithm == "Scan") {
+            int* diskLineup = doDisk();
+            // for (int i = 0; i < 10; i++) {
+            //     cout << diskLineup[i] << endl;
+            // }
+            int movements = scan(diskLineup);
+            cout << "\nNumber of movements made: " << movements << endl;
+        }
         else if (algorithm == "C-Scan") {
             int* diskLineup = doDisk();
             // for (int i = 0; i < 10; i++) {

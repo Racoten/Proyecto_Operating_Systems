@@ -89,3 +89,44 @@ int cscan(int requests[]) {
     
     return movements;
 }
+int scan(int requests[]) {
+    int edgeLeft = 0;
+    int edgeRight = 199;
+    int movements = 0;
+    int head = requests[0];
+    int size = 10;
+    cout << "Head is -> " << head << endl;
+
+    // Sort in ascending order
+    sort(requests, requests + size);
+
+    // Find position of head in requests array
+    int headPosition = 0;
+    for (int i = 0; i < size; i++) {
+        if (requests[i] == head) {
+            headPosition = i;
+            break;
+        }
+    }
+
+    // Go right
+    for (int i = headPosition; i < size; i++) {
+        movements += abs(requests[i] - head);
+        head = requests[i];
+    }
+
+    // Go left
+    for (int i = headPosition - 1; i >= 0; i--) {
+        movements += abs(requests[i] - head);
+        head = requests[i];
+    }
+
+    // Print sorted request
+    cout << "Sorted Requests: ";
+    for (int i = 0; i < size; i++) {
+        cout << requests[i] << " ";
+    }
+    cout << endl;
+
+    return movements;
+}

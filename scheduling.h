@@ -56,32 +56,50 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
  * @param procNumber number of total processes
 */
 void shortestJobFirst(Process* head, int procNumber) {
-     // ordena los procesos por burstime
-     Process* current =  sortByburstTime(head, procNumber); // linea 55 o linea 56 es la correcta?
+    // Ordena los procesos por burst time
+    Process* current = sortByburstTime(head, procNumber);
 
-    // Execute processes and calculate wait and turnaround times
-    int *totalWaitTime = new int(0);
-    int *totalTurnaroundTime = new int(0);
-    int *currentTime = new int(0);
-    current = head;
-   
+    // Muestra la tabla de procesos ordenados por su burst time
+    cout << "Process\t\tBurst Time\n";
+    cout << "-------------------------\n";
     while (current != nullptr) {
-        int waitTime = *currentTime - current->arrivalTime;
-        *totalWaitTime += waitTime;
-        int turnaroundTime = waitTime + current->burstTime;
-        *totalTurnaroundTime += turnaroundTime;
+        cout << "P" << current->pid << "\t\t" << current->burstTime << "\n";
+        current = current->next;
+    }
 
+    // Ejecuta los procesos y calcula los tiempos de espera y turnaround
+    int totalWaitTime = 0;
+    int totalTurnaroundTime = 0;
+    int currentTime = 0;
+    current = head;
+
+    cout << "\n";
+    while (current != nullptr) {
+        int waitTime = currentTime - current->arrivalTime;
+        totalWaitTime += waitTime;
+        int turnaroundTime = waitTime + current->burstTime;
+        totalTurnaroundTime += turnaroundTime;
+
+        // Ejecuta el proceso para su burst time
         for (int i = 0; i < current->burstTime; i++) {
-            cout << " P" << current->pid << " ";
-            *currentTime += 1.0;
+            cout << "P" << current->pid << " ";
+            currentTime += 1;
+        }
+
+        // Actualiza el tiempo de llegada del siguiente proceso
+        if (current->next != nullptr) {
+            current->next->arrivalTime = currentTime;
         }
 
         current = current->next;
     }
-     // Calcular waiting,avarage,TAt times... falta
-    
 
+    // Muestra los tiempos de espera y turnaround totales
+    cout << "\nTotal wait time: " << totalWaitTime << "\n";
+    cout << "Total turnaround time: " << totalTurnaroundTime << "\n";
+    cout << "Average turnaround time: " << static_cast<double>(totalTurnaroundTime) / procNumber << "\n";
 }
+    
 
 /**
  * Priority Process Scheduling: 

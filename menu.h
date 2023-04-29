@@ -16,6 +16,46 @@ struct Process {
     Process* previous;
 };
 
+// Struct for each memory page in a linkedlist
+struct Memory {
+  int page;
+  Memory *next;
+  Memory *previous;
+};
+
+Memory *generateMemoryList(int memSelection) {
+  // Before create more than 1 Node in a linked list, define first
+  // a head node and set up its values
+  int headPage = 0;
+
+  cout << "\nEnter the Page for the head page: ";
+  cin >> headPage;
+
+  // Create head node with values passed
+  Memory *head = new Memory();
+  head->page = headPage;
+
+  int nextNodePAGE = 0;
+
+  Memory *current = head;
+
+  for (int i = 1; i < memSelection; i++) {
+    nextNodePAGE = i + 1;
+
+    cout << "\nEnter Page for next node: ";
+    cin >> nextNodePAGE;
+
+    // After entering the values for a node, automatically create them and add
+    // another node right beneath it
+    Memory *newMemory = new Memory();
+    newMemory->page = nextNodePAGE;
+    current->next = newMemory;
+    current = current->next;
+  }
+
+  return head;
+}
+
 /**
  * Generate Process List: 
  * This method will generate a LinkedList by first asking the user how many Nodes to add (i.e Processes to add) and then for each, ask the user for the burst time

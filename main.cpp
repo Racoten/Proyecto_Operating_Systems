@@ -21,6 +21,22 @@ void printLinkedList(Process* head) {
     }
 }
 
+void printMemoryList(Memory *head) {
+  Memory *current = head;
+  cout << "" << endl;
+  while (current != nullptr) {
+    cout << "Memory Page: " << current->page << endl;
+    current = current->next;
+  }
+}
+
+Memory *doMemory(int pageSize) {
+  Memory *head = new Memory();
+  head = generateMemoryList(pageSize);
+  printMemoryList(head);
+  return head;
+}
+
 Process* doCPU(int procSelection) {
     Process* head = NULL; 
     head = generateProcessList(procSelection);
@@ -117,6 +133,11 @@ int main() {
             // }
             int movements = cscan(diskLineup);
             cout << "\nNumber of movements made: " << movements << endl;
+        } else if (algorithm == "LRU") {
+            int pageSize = 0;
+            cout << "Enter page size: ";
+            cin >> pageSize;
+            Memory *head = doMemory(pageSize);
         }
 
         cout << "\nWould you like to continue? (Example: yes, y): ";

@@ -56,18 +56,31 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
  * @param procNumber number of total processes
 */
 void shortestJobFirst(Process* head, int procNumber) {
-    // Ordena los procesos por burst time
+    // Sort processes by burst time
     Process* current = sortByburstTime(head, procNumber);
 
-    // Muestra la tabla de procesos ordenados por su burst time
-    cout << "Process\t\tBurst Time\n";
-    cout << "-------------------------\n";
-    while (current != nullptr) {
-        cout << "P" << current->pid << "\t\t" << current->burstTime << "\n";
+    // Calculate waiting times
+    int* waitingTime = new int[procNumber];
+    int* burstTimes = new int[procNumber];
+    current = head;
+    for (int i = 0; i < procNumber; i++) {
+        burstTimes[i] = current->burstTime;
         current = current->next;
     }
+    waitingTime = calculateNonPreemptive(burstTimes, procNumber);
 
-    // Ejecuta los procesos y calcula los tiempos de espera y turnaround
+    // Display results
+    cout << "\nProcess\t\t|\t   Waiting Time" << endl;
+    cout << "----------------------------------------------" << endl;
+    int i = 0;
+    current = head;
+    while (current != nullptr) {
+        cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
+        current = current->next;
+        i += 1;
+    }
+
+    // Calculate and display total wait time, turnaround time, and average turnaround time
     int totalWaitTime = 0;
     int totalTurnaroundTime = 0;
     int currentTime = 0;
@@ -80,13 +93,9 @@ void shortestJobFirst(Process* head, int procNumber) {
         int turnaroundTime = waitTime + current->burstTime;
         totalTurnaroundTime += turnaroundTime;
 
-        // Ejecuta el proceso para su burst time
-        for (int i = 0; i < current->burstTime; i++) {
-            cout << "P" << current->pid << " ";
-            currentTime += 1;
-        }
+        currentTime += current->burstTime;
 
-        // Actualiza el tiempo de llegada del siguiente proceso
+        // Update arrival time of next process
         if (current->next != nullptr) {
             current->next->arrivalTime = currentTime;
         }
@@ -94,12 +103,11 @@ void shortestJobFirst(Process* head, int procNumber) {
         current = current->next;
     }
 
-    // Muestra los tiempos de espera y turnaround totales
     cout << "\nTotal wait time: " << totalWaitTime << "\n";
     cout << "Total turnaround time: " << totalTurnaroundTime << "\n";
     cout << "Average turnaround time: " << static_cast<double>(totalTurnaroundTime) / procNumber << "\n";
 }
-    
+
 
 /**
  * Priority Process Scheduling: 

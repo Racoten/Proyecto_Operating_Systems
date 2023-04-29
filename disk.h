@@ -55,7 +55,7 @@ int sstf(int requests[]) {
     return total_moves;
 }
 
-int cscan(int requests[]) {
+int cscan(int requests[]) {// VERIFICAR Y ARREGLAR LOS OUTPUT YA QUE AVECES LO QUE DA ES EL SORTED ARRAY Y NO EL MOVEMENT DE LOS REQUEST EN EL ORDEN QUE SE SUPONE
     int edgeLeft = 0;
     int edgeRight = 199;
     int movements = 0;

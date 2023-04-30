@@ -98,30 +98,3 @@ Process* sortByburstTime(Process* head, int procNumber) {
     // Return the head of the sorted linked list
     return head;
 }
-
-/**
- * Process Reconstruct:
- * 
- * This function takes a parameter of type Process which is a singly linked list by default.
- * The function will then reconstruct it so that it can become a Circular Doubly Linked List
- * of Processes.
- * 
- * @param head unsorted linked list of all process nodes
-*/
-Process* processReconstruct(Process* head) {
-    if (head == nullptr) {
-        return nullptr;
-    }
-
-    // Traverse to the end of the list and set previous pointers
-    Process* current = head;
-    Process* previous = nullptr;
-    while (current != nullptr) {
-        current->previous = previous;
-        previous = current;
-        current = current->next;
-    }
-
-    // Return the new head of the list
-    return head;
-}

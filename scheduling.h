@@ -2,6 +2,8 @@
 #include "menu.h"
 #include "calculate.h"
 #include "sortProcesses.h"
+#include <climits>
+#include <algorithm>
 
 // Define prototypes
 Process* generateNewList(Process* head);
@@ -32,15 +34,36 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
 
     waitingTime = calculateNonPreemptive(burstTimes, procNumber);
 
-    int i = 0;
+    // Store waiting times and calculate turnaround times in the Process struct
     current = firstProcess;
-    cout << "\nProcess\t\t|\t   Waiting Time" << endl;
-    cout << "----------------------------------------------" << endl;
-    while (current != nullptr) {
-        cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
+    for (int i = 0; i < procNumber; i++) {
+        current->waitingTime = waitingTime[i];
+        current->turnAroundTime = current->waitingTime + current->burstTime;
         current = current->next;
-        i += 1;
     }
+
+    // Output results
+    cout << "\nProcess\t\t|\t   Waiting Time\t\t|\tTurnaround Time" << endl;
+    cout << "----------------------------------------------------------------" << endl;
+    float totalWaitingTime = 0.0;
+    float totalTurnaroundTime = 0.0;
+    current = firstProcess;
+    while (current != nullptr) {
+        cout << "P" << current->pid << "\t\t" << "|\t\t" << current->waitingTime << "\t\t|\t" << current->turnAroundTime << endl;
+        totalWaitingTime += current->waitingTime;
+        totalTurnaroundTime += current->turnAroundTime;
+        current = current->next;
+    }
+
+    cout << "\nAverage waiting time for all processes is: " << totalWaitingTime / procNumber << endl;
+    cout << "Average turnaround time for all processes is: " << totalTurnaroundTime / procNumber << endl;
+
+    delete[] waitingTime;
+    delete[] burstTimes;
+}
+
+bool compareArrivalTime(Process* a, Process* b) {
+    return a->arrivalTime < b->arrivalTime;
 }
 
 /**
@@ -56,56 +79,64 @@ void firstComeFirstServe(Process* firstProcess, int procNumber) {
  * @param procNumber number of total processes
 */
 void shortestJobFirst(Process* head, int procNumber) {
-    // Sort processes by burst time
-    Process* current = sortByburstTime(head, procNumber);
+    Process** processes = new Process*[procNumber];
+    Process* current = head;
 
-    // Calculate waiting times
-    int* waitingTime = new int[procNumber];
-    int* burstTimes = new int[procNumber];
-    current = head;
     for (int i = 0; i < procNumber; i++) {
-        burstTimes[i] = current->burstTime;
+        processes[i] = current;
+        current->remainingBurstTime = current->burstTime;
         current = current->next;
     }
-    waitingTime = calculateNonPreemptive(burstTimes, procNumber);
 
-    // Display results
-    cout << "\nProcess\t\t|\t   Waiting Time" << endl;
-    cout << "----------------------------------------------" << endl;
-    int i = 0;
-    current = head;
-    while (current != nullptr) {
-        cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
-        current = current->next;
-        i += 1;
-    }
+    sort(processes, processes + procNumber, compareArrivalTime);
 
-    // Calculate and display total wait time, turnaround time, and average turnaround time
+    int currentTime = 0;
+    int completed = 0;
     int totalWaitTime = 0;
     int totalTurnaroundTime = 0;
-    int currentTime = 0;
-    current = head;
 
-    cout << "\n";
-    while (current != nullptr) {
-        int waitTime = currentTime - current->arrivalTime;
-        totalWaitTime += waitTime;
-        int turnaroundTime = waitTime + current->burstTime;
-        totalTurnaroundTime += turnaroundTime;
+    while (completed < procNumber) {
+        int minRemainingTimeIndex = -1;
+        int minRemainingTime = INT_MAX;
 
-        currentTime += current->burstTime;
-
-        // Update arrival time of next process
-        if (current->next != nullptr) {
-            current->next->arrivalTime = currentTime;
+        for (int i = 0; i < procNumber; i++) {
+            if (processes[i]->arrivalTime <= currentTime && processes[i]->remainingBurstTime > 0) {
+                if (processes[i]->remainingBurstTime < minRemainingTime) {
+                    minRemainingTime = processes[i]->remainingBurstTime;
+                    minRemainingTimeIndex = i;
+                }
+            }
         }
 
-        current = current->next;
+        if (minRemainingTimeIndex != -1) {
+            processes[minRemainingTimeIndex]->remainingBurstTime -= 1;
+            currentTime++;
+
+            if (processes[minRemainingTimeIndex]->remainingBurstTime == 0) {
+                completed++;
+                processes[minRemainingTimeIndex]->waitingTime = currentTime - processes[minRemainingTimeIndex]->arrivalTime - processes[minRemainingTimeIndex]->burstTime;
+                processes[minRemainingTimeIndex]->turnAroundTime = currentTime - processes[minRemainingTimeIndex]->arrivalTime;
+                totalWaitTime += processes[minRemainingTimeIndex]->waitingTime;
+                totalTurnaroundTime += processes[minRemainingTimeIndex]->turnAroundTime;
+            }
+        } else {
+            currentTime++;
+        }
+    }
+
+    // Display results
+    cout << "\nProcess\t\t|\t   Waiting Time\t\t|\tTurnaround Time" << endl;
+    cout << "----------------------------------------------------------------" << endl;
+    for (int i = 0; i < procNumber; i++) {
+        cout << "P" << processes[i]->pid << "\t\t" << "|\t\t" << processes[i]->waitingTime << "\t\t|\t" << processes[i]->turnAroundTime << endl;
     }
 
     cout << "\nTotal wait time: " << totalWaitTime << "\n";
+    cout << "Average Waiting Time: " << (float)(totalWaitTime/(float)(procNumber)) << "\n";
     cout << "Total turnaround time: " << totalTurnaroundTime << "\n";
     cout << "Average turnaround time: " << static_cast<double>(totalTurnaroundTime) / procNumber << "\n";
+
+    delete[] processes;
 }
 
 
@@ -121,33 +152,52 @@ void shortestJobFirst(Process* head, int procNumber) {
 void priorityScheduling(Process* head, int procNumber) {
     Process* sortedHead = sortByPriority(head, procNumber);
     
-    /** Copy paste same algorithm for First Come First Serve because the linked list is
-     * already sorted and ready for processing
-    **/
-    int* waitingTime = new int[procNumber];
     int* burstTimes = new int[procNumber];
-
     Process* current = sortedHead;
     for (int i = 0; i < procNumber; i++) {
         burstTimes[i] = current->burstTime;
         current = current->next;
     }
 
-    waitingTime = calculateNonPreemptive(burstTimes, procNumber);
+    int* waitingTime = calculateNonPreemptive(burstTimes, procNumber);
 
-    int i = 0;
-    float totalWaitingTime = 0.0;
+    // Store waiting times and calculate turnaround times in the Process struct
     current = sortedHead;
-    cout << "\nProcess\t\t|\t   Waiting Time" << endl;
-    cout << "----------------------------------------------" << endl;
-    while (current != nullptr) {
-        cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
+    for (int i = 0; i < procNumber; i++) {
+        current->waitingTime = waitingTime[i];
+        current->turnAroundTime = current->waitingTime + current->burstTime;
         current = current->next;
-        totalWaitingTime += waitingTime[i];
-        i += 1;
+    }
+
+    // Sort processes by pid
+    Process** processArray = new Process*[procNumber];
+    current = head;
+    for (int i = 0; i < procNumber; i++) {
+        processArray[i] = current;
+        current = current->next;
+    }
+
+    sort(processArray, processArray + procNumber, [](Process* a, Process* b) {
+        return a->pid < b->pid;
+    });
+
+    // Output results
+    cout << "\nProcess\t\t|\t   Waiting Time\t\t|\tTurnaround Time" << endl;
+    cout << "----------------------------------------------------------------" << endl;
+    float totalWaitingTime = 0.0;
+    float totalTurnaroundTime = 0.0;
+    for (int i = 0; i < procNumber; i++) {
+        cout << "P" << processArray[i]->pid << "\t\t" << "|\t\t" << processArray[i]->waitingTime << "\t\t|\t" << processArray[i]->turnAroundTime << endl;
+        totalWaitingTime += processArray[i]->waitingTime;
+        totalTurnaroundTime += processArray[i]->turnAroundTime;
     }
 
     cout << "\nAverage waiting time for all processes is: " << totalWaitingTime / procNumber << endl;
+    cout << "Average turnaround time for all processes is: " << totalTurnaroundTime / procNumber << endl;
+
+    delete[] burstTimes;
+    delete[] waitingTime;
+    delete[] processArray;
 }
 
 /**
@@ -171,25 +221,29 @@ void roundRobin(Process* head, int procNumber) {
     // Execute first process
     findWaitingTimeRoundRobin(reconstructedHead, quantum);
 
-
-    // Print out the waiting time for each process
-    Process* current = reconstructedHead;
+    // Calculate total waiting time and turnaround time
     int totalWaitingTime = 0;
-    int i = 0;
-    int* waitingTime = new int[procNumber];
-
-    for (int i = 0; i < procNumber; i++) {
-        waitingTime[i] = reconstructedHead->waitingTime;
-    }
-
-    cout << "\nProcess\t\t|\t   Waiting Time" << endl;
-    cout << "----------------------------------------------" << endl;
+    int totalTurnaroundTime = 0;
+    Process* current = reconstructedHead;
     while (current != nullptr) {
-        cout << "P" << current->pid << "\t\t" << "|\t\t" << waitingTime[i] << endl;
+        totalWaitingTime += current->waitingTime;
+        totalTurnaroundTime += current->turnAroundTime;
         current = current->next;
-        totalWaitingTime += waitingTime[i];
-        i += 1;
     }
+
+    // Print out the waiting time and turnaround time for each process
+    current = reconstructedHead;
+
+    cout << "\nProcess\t\t|\t   Waiting Time\t\t|\tTurnaround Time" << endl;
+    cout << "---------------------------------------------------------------" << endl;
+    while (current != nullptr) {
+        cout << "P" << current->pid << "\t\t" << "|\t\t" << current->waitingTime << "\t\t|\t" << current->turnAroundTime << endl;
+        current = current->next;
+    }
+
+    // Calculate and display average waiting time and turnaround time
+    cout << "\nAverage waiting time for all processes is: " << static_cast<double>(totalWaitingTime) / procNumber << endl;
+    cout << "Average turnaround time for all processes is: " << static_cast<double>(totalTurnaroundTime) / procNumber << endl;
 
     deleteLinkedList(reconstructedHead);
 }

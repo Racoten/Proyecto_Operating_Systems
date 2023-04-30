@@ -24,21 +24,31 @@ struct PageFrame {
     PageFrame* next;
 };
 
-// Function to generate a random page reference string of given length and range
-list<int> generatePageReferences(int length, int range) {
-    // Initialize random number generator
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<int> dist(0, range - 1);
+// Function to get page references from the user
+PageFrame* inputPageReferences(int length) {
+    PageFrame* head = nullptr;
+    PageFrame* tail = nullptr;
 
-    // Generate page reference string
-    list<int> pageReferences;
+    cout << "Enter " << length << " page references:" << endl;
+
     for (int i = 0; i < length; i++) {
-        int page = dist(gen);
-        pageReferences.push_back(page);
+        int page;
+        cin >> page;
+
+        PageFrame* newPageFrame = new PageFrame;
+        newPageFrame->page = page;
+        newPageFrame->next = nullptr;
+
+        if (head == nullptr) {
+            head = newPageFrame;
+            tail = head;
+        } else {
+            tail->next = newPageFrame;
+            tail = newPageFrame;
+        }
     }
 
-    return pageReferences;
+    return head;
 }
 
 /**

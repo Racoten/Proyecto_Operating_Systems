@@ -134,14 +134,55 @@ int main() {
             cout << "Enter length of page reference string (max 20): ";
             cin >> numReferences;
 
-            int pageReferences[numReferences];
+            if (numReferences > 20) {
+                cout << "Maximum number of references exceeded, setting to 20." << endl;
+                numReferences = 20;
+            }
 
-            generatePageReferences(numReferences, pageReferences);
+            PageFrame* pageReferences = inputPageReferences(numReferences);
 
             cout << "Enter number of page frames: ";
             cin >> numFrames;
 
-            int pageFaults = calculatePageFaults(numFrames, numReferences, pageReferences);
+            int pageFaults = calculatePageFaultsFIFO(numFrames, pageReferences);
+
+            cout << "Number of page faults: " << pageFaults << endl;
+        } else if (algorithm == "LRU") {
+            int numReferences, numFrames;
+
+            cout << "Enter length of page reference string (max 20): ";
+            cin >> numReferences;
+
+            if (numReferences > 20) {
+                cout << "Maximum number of references exceeded, setting to 20." << endl;
+                numReferences = 20;
+            }
+
+            PageFrame* pageReferences = inputPageReferences(numReferences);
+
+            cout << "Enter number of page frames: ";
+            cin >> numFrames;
+
+            int pageFaults = calculatePageFaultsLRU(numFrames, pageReferences);
+
+            cout << "Number of page faults: " << pageFaults << endl;
+        } else if (algorithm == "Optimal") {
+            int numReferences, numFrames;
+
+            cout << "Enter length of page reference string (max 20): ";
+            cin >> numReferences;
+
+            if (numReferences > 20) {
+                cout << "Maximum number of references exceeded, setting to 20." << endl;
+                numReferences = 20;
+            }
+
+            PageFrame* pageReferences = inputPageReferences(numReferences);
+
+            cout << "Enter number of page frames: ";
+            cin >> numFrames;
+
+            int pageFaults = calculatePageFaultsOptimal(numFrames, pageReferences);
 
             cout << "Number of page faults: " << pageFaults << endl;
         }

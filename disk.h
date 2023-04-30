@@ -9,7 +9,7 @@ int dFCFS(int requests[]) {
 
     // Traverse the requests queue in order and calculate the total number of moves
     cout << "Sequence of movements: ";
-    for (int i = 1; i < 9; i++) {
+    for (int i = 1; i < 9; i++) { //FIXED, BEFORE WAS FROM 0 TO 9 
         cout << curr_pos << " -> ";
         total_moves += abs(requests[i] - curr_pos);
         curr_pos = requests[i];

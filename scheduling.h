@@ -211,20 +211,17 @@ void priorityScheduling(Process* head, int procNumber) {
  * @param procNumber number of total processes
 **/
 void roundRobin(Process* head, int procNumber) {
-    // Reconstruct the singly linked list of processes to become a Circular Doubly Linked List
-    Process* reconstructedHead = processReconstruct(head);
-
     int quantum = 0;
     cout << "Enter quantum time: ";
     cin >> quantum;
 
     // Execute first process
-    findWaitingTimeRoundRobin(reconstructedHead, quantum);
+    findWaitingTimeRoundRobin(head, quantum);
 
     // Calculate total waiting time and turnaround time
     int totalWaitingTime = 0;
     int totalTurnaroundTime = 0;
-    Process* current = reconstructedHead;
+    Process* current = head;
     while (current != nullptr) {
         totalWaitingTime += current->waitingTime;
         totalTurnaroundTime += current->turnAroundTime;
@@ -232,7 +229,7 @@ void roundRobin(Process* head, int procNumber) {
     }
 
     // Print out the waiting time and turnaround time for each process
-    current = reconstructedHead;
+    current = head;
 
     cout << "\nProcess\t\t|\t   Waiting Time\t\t|\tTurnaround Time" << endl;
     cout << "---------------------------------------------------------------" << endl;
@@ -244,19 +241,4 @@ void roundRobin(Process* head, int procNumber) {
     // Calculate and display average waiting time and turnaround time
     cout << "\nAverage waiting time for all processes is: " << static_cast<double>(totalWaitingTime) / procNumber << endl;
     cout << "Average turnaround time for all processes is: " << static_cast<double>(totalTurnaroundTime) / procNumber << endl;
-
-    deleteLinkedList(reconstructedHead);
-}
-
-void deleteLinkedList(Process* head) {
-    Process* current = head;
-    Process* next;
-
-    while (current != nullptr) {
-        next = current->next;
-        delete current;
-        current = next;
-    }
-
-    head = nullptr; // Set head to null after deleting all nodes
 }

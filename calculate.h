@@ -22,7 +22,6 @@ int* calculateNonPreemptive(int burstTime[], int procNumber) {
     return waitingTime;
 }
 
-// Function to calculate waiting times of processes
 void findWaitingTimeRoundRobin(Process* head, int quantum) {
     // Create a queue to store processes
     queue<Process*> processQueue;
@@ -60,7 +59,7 @@ void findWaitingTimeRoundRobin(Process* head, int quantum) {
         processQueue.pop();
 
         // Calculate the waiting time for this process
-        nextProcess->waitingTime = currentTime - nextProcess->arrivalTime;
+        nextProcess->waitingTime += currentTime - nextProcess->arrivalTime;
 
         // Calculate the remaining time for this process
         int remainingTime = nextProcess->remainingBurstTime - quantum;
@@ -70,8 +69,9 @@ void findWaitingTimeRoundRobin(Process* head, int quantum) {
             currentTime += nextProcess->remainingBurstTime;
             nextProcess->turnAroundTime = currentTime - nextProcess->arrivalTime;
         } else {
-            // Add the process back to the queue with updated remaining time
+            // Add the process back to the queue with updated remaining time and arrival time
             nextProcess->remainingBurstTime = remainingTime;
+            nextProcess->arrivalTime = currentTime + quantum;
             processQueue.push(nextProcess);
             currentTime += quantum;
         }

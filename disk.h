@@ -1,7 +1,14 @@
 #include <climits>
 #include <algorithm>
 
-// Function to calculate the total number of head movements and print the sequence of movements
+/**
+ * Calculate the total number of head movements using the Disk First Come First Serve (FCFS) scheduling algorithm
+ * This function takes an array of disk access requests as input and returns the total number of head movements
+ * required to complete all requests using the Disk FCFS algorithm.
+ * 
+ * @param requests An array of integers representing the disk access requests in their arrival order
+ * @return The total number of head movements calculated using the Disk FCFS algorithm
+ */
 int dFCFS(int requests[]) {
     int head = requests[0];
     int total_moves = 0;
@@ -19,6 +26,14 @@ int dFCFS(int requests[]) {
     return total_moves;
 }
 
+/**
+ * Calculate the total number of head movements using the Shortest Seek Time First (SSTF) scheduling algorithm
+ * This function takes an array of disk access requests as input and returns the total number of head movements
+ * required to complete all requests using the SSTF algorithm.
+ * 
+ * @param requests An array of integers representing the disk access requests in their arrival order
+ * @return The total number of head movements calculated using the SSTF algorithm
+ */
 int sstf(int requests[]) {
     // Set the initial head position as the first request
     int head = requests[0];
@@ -55,6 +70,12 @@ int sstf(int requests[]) {
     return total_moves;
 }
 
+/**
+* Circular scan algorithm for disk scheduling.
+*
+* @param requests An array of requests to be processed.
+* @return The total number of movements made by the disk head.
+*/
 int cscan(int requests[]) {// VERIFICAR Y ARREGLAR LOS OUTPUT YA QUE AVECES LO QUE DA ES EL SORTED ARRAY Y NO EL MOVEMENT DE LOS REQUEST EN EL ORDEN QUE SE SUPONE
     int edgeLeft = 0;
     int edgeRight = 199;
@@ -89,6 +110,14 @@ int cscan(int requests[]) {// VERIFICAR Y ARREGLAR LOS OUTPUT YA QUE AVECES LO Q
     
     return movements;
 }
+
+/**
+ * This function calculates the total number of disk movements required 
+ * to fulfill a sequence of disk requests using the SCAN algorithm.
+ * 
+ * @param requests An array of integers representing the sequence of disk requests
+ * @return The total number of disk movements required to fulfill the sequence of disk requests
+ */
 int scan(int requests[]) {
     int edgeLeft = 0;
     int edgeRight = 199;

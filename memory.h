@@ -6,6 +6,15 @@
 
 using namespace std;
 
+/**
+ * Calculate the number of page faults using the First-In-First-Out (FIFO) algorithm
+ * This function takes the number of frames and a linked list of page references as input
+ * and returns the number of page faults that occurred using the FIFO page replacement algorithm.
+ * 
+ * @param numFrames The number of available frames
+ * @param pageReferences Pointer to the head of the linked list of PageFrame structs representing the page reference string
+ * @return The number of page faults calculated using the FIFO algorithm
+ */
 int calculatePageFaultsFIFO(int numFrames, PageFrame* pageReferences) {
     int pageFaults = 0;
     list<int> pageList;
@@ -41,6 +50,15 @@ int calculatePageFaultsFIFO(int numFrames, PageFrame* pageReferences) {
     return pageFaults;
 }
 
+/**
+ * Calculate the number of page faults using the Least Recently Used (LRU) algorithm
+ * This function takes the number of frames and a linked list of page references as input
+ * and returns the number of page faults that occurred using the LRU page replacement algorithm.
+ * 
+ * @param numFrames The number of available frames
+ * @param pageReferences Pointer to the head of the linked list of PageFrame structs representing the page reference string
+ * @return The number of page faults calculated using the LRU algorithm
+ */
 int calculatePageFaultsLRU(int numFrames, PageFrame* pageReferences) {
     int pageFaults = 0;
     list<int> pageList;
@@ -70,6 +88,15 @@ int calculatePageFaultsLRU(int numFrames, PageFrame* pageReferences) {
     return pageFaults;
 }
 
+/**
+ * Find the optimal page to replace using the Optimal Page Replacement algorithm
+ * This function takes a map of page access positions and a set of pages currently in frames,
+ * and returns the page that should be replaced based on the Optimal algorithm.
+ * 
+ * @param pageAccessPositions A map of page numbers to their positions in the access sequence (a vector of integers)
+ * @param pagesInFrames A set containing the pages currently in the frames
+ * @return The page number that should be replaced based on the Optimal algorithm
+ */
 int findOptimalPageToReplace(unordered_map<int, vector<int>>& pageAccessPositions, unordered_set<int>& pagesInFrames) {
     int farthestPage = -1;
     int farthestPosition = -1;
@@ -90,6 +117,15 @@ int findOptimalPageToReplace(unordered_map<int, vector<int>>& pageAccessPosition
     return farthestPage;
 }
 
+/**
+ * Calculate the number of page faults using the Optimal Page Replacement algorithm
+ * This function takes the number of frames and a linked list of page references as input
+ * and returns the number of page faults that occurred using the Optimal page replacement algorithm.
+ * 
+ * @param numFrames The number of available frames
+ * @param pageReferences Pointer to the head of the linked list of PageFrame structs representing the page reference string
+ * @return The number of page faults calculated using the Optimal algorithm
+ */
 int calculatePageFaultsOptimal(int numFrames, PageFrame* pageReferences) {
     int pageFaults = 0;
     unordered_set<int> pagesInFrames;

@@ -3,6 +3,9 @@
 #include <string>
 #include <algorithm>
 #include "disk.h"
+#include "memory.h"
+#include <unordered_set>
+#include <list>
 
 using namespace std;
 
@@ -19,22 +22,6 @@ void printLinkedList(Process* head) {
              << ", Priority: " << current->priority <<  endl;
         current = current->next;
     }
-}
-
-void printMemoryList(Memory *head) {
-  Memory *current = head;
-  cout << "" << endl;
-  while (current != nullptr) {
-    cout << "Memory Page: " << current->page << endl;
-    current = current->next;
-  }
-}
-
-Memory *doMemory(int pageSize) {
-  Memory *head = new Memory();
-  head = generateMemoryList(pageSize);
-  printMemoryList(head);
-  return head;
 }
 
 Process* doCPU(int procSelection) {
@@ -61,6 +48,13 @@ int* doDisk() {
     }
 
     return diskLineup;
+}
+
+void generatePageReferences(int numReferences, int pageReferences[]) {
+    cout << "Enter page reference string (separated by spaces): ";
+    for (int i = 0; i < numReferences; i++) {
+        cin >> pageReferences[i];
+    }
 }
 
 int main() {
@@ -118,7 +112,7 @@ int main() {
             int movements = sstf(diskLineup);
             cout << "Number of movements made: " << movements << endl;
         }
-         else if (algorithm == "Scan") {
+        else if (algorithm == "Scan") {
             int* diskLineup = doDisk();
             // for (int i = 0; i < 10; i++) {
             //     cout << diskLineup[i] << endl;
@@ -133,11 +127,23 @@ int main() {
             // }
             int movements = cscan(diskLineup);
             cout << "\nNumber of movements made: " << movements << endl;
-        } else if (algorithm == "LRU") {
-            int pageSize = 0;
-            cout << "Enter page size: ";
-            cin >> pageSize;
-            Memory *head = doMemory(pageSize);
+        }
+        else if (algorithm == "FIFO") {
+            int numReferences, numFrames;
+
+            cout << "Enter length of page reference string (max 20): ";
+            cin >> numReferences;
+
+            int pageReferences[numReferences];
+
+            generatePageReferences(numReferences, pageReferences);
+
+            cout << "Enter number of page frames: ";
+            cin >> numFrames;
+
+            int pageFaults = calculatePageFaults(numFrames, numReferences, pageReferences);
+
+            cout << "Number of page faults: " << pageFaults << endl;
         }
 
         cout << "\nWould you like to continue? (Example: yes, y): ";

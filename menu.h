@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <list>
+#include <random>
 
 using namespace std;
 
@@ -16,44 +18,27 @@ struct Process {
     Process* previous;
 };
 
-// Struct for each memory page in a linkedlist
-struct Memory {
-  int page;
-  Memory *next;
-  Memory *previous;
+// Definition of a page frame node
+struct PageFrame {
+    int page;
+    PageFrame* next;
 };
 
-Memory *generateMemoryList(int memSelection) {
-  // Before create more than 1 Node in a linked list, define first
-  // a head node and set up its values
-  int headPage = 0;
+// Function to generate a random page reference string of given length and range
+list<int> generatePageReferences(int length, int range) {
+    // Initialize random number generator
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> dist(0, range - 1);
 
-  cout << "\nEnter the Page for the head page: ";
-  cin >> headPage;
+    // Generate page reference string
+    list<int> pageReferences;
+    for (int i = 0; i < length; i++) {
+        int page = dist(gen);
+        pageReferences.push_back(page);
+    }
 
-  // Create head node with values passed
-  Memory *head = new Memory();
-  head->page = headPage;
-
-  int nextNodePAGE = 0;
-
-  Memory *current = head;
-
-  for (int i = 1; i < memSelection; i++) {
-    nextNodePAGE = i + 1;
-
-    cout << "\nEnter Page for next node: ";
-    cin >> nextNodePAGE;
-
-    // After entering the values for a node, automatically create them and add
-    // another node right beneath it
-    Memory *newMemory = new Memory();
-    newMemory->page = nextNodePAGE;
-    current->next = newMemory;
-    current = current->next;
-  }
-
-  return head;
+    return pageReferences;
 }
 
 /**

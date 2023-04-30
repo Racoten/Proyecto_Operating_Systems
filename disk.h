@@ -46,9 +46,9 @@ int sstf(int requests[]) {
     cout << "Sequence of movements: ";
 
     // Process all disk requests
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 10; i++) {
         // Sort the remaining requests in ascending order of distance from the current position
-        sort(requests + i, requests + 9, [curr_pos](int a, int b) {
+        sort(requests + i, requests + 10, [curr_pos](int a, int b) {
             return abs(a - curr_pos) < abs(b - curr_pos);
         });
 

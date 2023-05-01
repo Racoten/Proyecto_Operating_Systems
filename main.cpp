@@ -41,7 +41,7 @@ int* doDisk() {
     cin >> initialDiskPosition;
     diskLineup[0] = initialDiskPosition;
 
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < 9; i++) {
         cout << "Now enter the next position: ";
         cin >> nextPostion;
         diskLineup[i] = nextPostion;
@@ -117,16 +117,15 @@ int main() {
             // for (int i = 0; i < 10; i++) {
             //     cout << diskLineup[i] << endl;
             // }
-            int movements = scan(diskLineup);
-            cout << "\nNumber of movements made: " << movements << endl;
+            int initial_head = diskLineup[0];
+            string initial_direction = "left"; // or "right" depending on the initial direction you want
+            scan(diskLineup, initial_head, initial_direction);
         }
         else if (algorithm == "C-Scan") {
             int* diskLineup = doDisk();
-            // for (int i = 0; i < 10; i++) {
-            //     cout << diskLineup[i] << endl;
-            // }
-            int movements = cscan(diskLineup);
-            cout << "\nNumber of movements made: " << movements << endl;
+            int initial_head = diskLineup[0];
+            cscan(diskLineup, initial_head);
+
         }
         else if (algorithm == "FIFO") {
             int numReferences, numFrames;

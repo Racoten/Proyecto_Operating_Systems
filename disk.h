@@ -70,46 +70,68 @@ int sstf(int requests[]) {
     return total_moves;
 }
 
+const int num_requests = 8;
+const int disk_capacity = 200;
+
 /**
 * Circular scan algorithm for disk scheduling.
 *
 * @param requests An array of requests to be processed.
+* @param intial_head contains the head of the sequence
 * @return The total number of movements made by the disk head.
 */
-int cscan(int requests[]) {// VERIFICAR Y ARREGLAR LOS OUTPUT YA QUE AVECES LO QUE DA ES EL SORTED ARRAY Y NO EL MOVEMENT DE LOS REQUEST EN EL ORDEN QUE SE SUPONE
-    int edgeLeft = 0;
-    int edgeRight = 199;
-    int movements = 0;
-    int head = requests[0];
-    int size = 10;
-    cout << "Head is -> " << head << endl;
+void cscan(int request_arr[], int initial_head) {
+    int seek_operations = 0;
+    int travel_distance, current_track;
+    vector<int> lower_tracks, upper_tracks;
+    vector<int> track_sequence;
 
-    // Sort in ascending order
-    sort(requests, requests + size);
+    lower_tracks.push_back(0);
+    upper_tracks.push_back(disk_capacity - 1);
 
-    int newLineUp[10];
-
-    // Copy contents of old array to new array
-    for(int i = 0; i < 10; i++) {
-        newLineUp[i] = requests[i];
-    }
-    
-    
-    // Divide arrays into two new arrays
-    int newSmallsLineUp[5];
-    for (int i = 0; i < 5; i++) {
-        newSmallsLineUp[i] = newLineUp[i];
+    for (int i = 0; i < num_requests; i++) {
+        if (request_arr[i] < initial_head)
+            lower_tracks.push_back(request_arr[i]);
+        if (request_arr[i] > initial_head)
+            upper_tracks.push_back(request_arr[i]);
     }
 
-    int newBigsLineUp[5];
-    int startingPosition = 5;
-    for (int i = 0; i < 5; i++) {
-        newBigsLineUp[i] = newLineUp[startingPosition];
-        startingPosition += 1;
+    std::sort(lower_tracks.begin(), lower_tracks.end());
+    std::sort(upper_tracks.begin(), upper_tracks.end());
+
+    for (int i = 0; i < upper_tracks.size(); i++) {
+        current_track = upper_tracks[i];
+        track_sequence.push_back(current_track);
+
+        travel_distance = abs(current_track - initial_head);
+        seek_operations += travel_distance;
+        initial_head = current_track;
     }
-    
-    return movements;
+
+    initial_head = 0;
+    seek_operations += (disk_capacity - 1);
+
+    for (int i = 0; i < lower_tracks.size(); i++) {
+        current_track = lower_tracks[i];
+        track_sequence.push_back(current_track);
+
+        travel_distance = abs(current_track - initial_head);
+        seek_operations += travel_distance;
+        initial_head = current_track;
+    }
+
+    cout << "Total number of seek operations = "
+         << seek_operations << endl;
+
+    cout << "Track Sequence is: ";
+
+    for (int i = 0; i < track_sequence.size(); i++) {
+        cout << track_sequence[i] << " -> ";
+    }
 }
+
+const int size = 8;
+const int disk_size = 200;
 
 /**
  * This function calculates the total number of disk movements required 
@@ -118,44 +140,65 @@ int cscan(int requests[]) {// VERIFICAR Y ARREGLAR LOS OUTPUT YA QUE AVECES LO Q
  * @param requests An array of integers representing the sequence of disk requests
  * @return The total number of disk movements required to fulfill the sequence of disk requests
  */
-int scan(int requests[]) {
-    int edgeLeft = 0;
-    int edgeRight = 199;
-    int movements = 0;
-    int head = requests[0];
-    int size = 10;
-    cout << "Head is -> " << head << endl;
+void scan(int request_arr[], int initial_head, string initial_dir)
+{
+    int total_seek_operations = 0;
+    int dist, current_track;
+    vector<int> left_requests, right_requests;
+    vector<int> track_sequence;
 
-    // Sort in ascending order
-    sort(requests, requests + size);
+    if (initial_dir == "left")
+        left_requests.push_back(0);
+    else if (initial_dir == "right")
+        right_requests.push_back(disk_size - 1);
 
-    // Find position of head in requests array
-    int headPosition = 0;
     for (int i = 0; i < size; i++) {
-        if (requests[i] == head) {
-            headPosition = i;
-            break;
+        if (request_arr[i] < initial_head)
+            left_requests.push_back(request_arr[i]);
+        if (request_arr[i] > initial_head)
+            right_requests.push_back(request_arr[i]);
+    }
+
+    std::sort(left_requests.begin(), left_requests.end());
+    std::sort(right_requests.begin(), right_requests.end());
+
+    int iteration = 2;
+    while (iteration--) {
+        if (initial_dir == "left") {
+            for (int i = left_requests.size() - 1; i >= 0; i--) {
+                current_track = left_requests[i];
+
+                track_sequence.push_back(current_track);
+
+                dist = abs(current_track - initial_head);
+
+                total_seek_operations += dist;
+
+                initial_head = current_track;
+            }
+            initial_dir = "right";
+        }
+        else if (initial_dir == "right") {
+            for (int i = 0; i < right_requests.size(); i++) {
+                current_track = right_requests[i];
+                track_sequence.push_back(current_track);
+
+                dist = abs(current_track - initial_head);
+
+                total_seek_operations += dist;
+
+                initial_head = current_track;
+            }
+            initial_dir = "left";
         }
     }
 
-    // Go right
-    for (int i = headPosition; i < size; i++) {
-        movements += abs(requests[i] - head);
-        head = requests[i];
-    }
+    cout << "Total number of seek operations = "
+         << total_seek_operations << endl;
 
-    // Go left
-    for (int i = headPosition - 1; i >= 0; i--) {
-        movements += abs(requests[i] - head);
-        head = requests[i];
-    }
+    cout << "Seek Sequence is: ";
 
-    // Print sorted request
-    cout << "Sorted Requests: ";
-    for (int i = 0; i < size; i++) {
-        cout << requests[i] << " ";
+    for (int i = 0; i < track_sequence.size(); i++) {
+        cout << track_sequence[i] << " -> ";
     }
-    cout << endl;
-
-    return movements;
 }

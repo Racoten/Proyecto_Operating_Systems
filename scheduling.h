@@ -140,7 +140,6 @@ void shortestJobFirst(Process* head, int procNumber) {
 }
 
 
-
 /**
  * Priority Process Scheduling: 
  * 
